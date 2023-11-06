@@ -43,7 +43,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.sbt_plugin_example"
+        applicationId "com.stpass.sbt_rfid_pda"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

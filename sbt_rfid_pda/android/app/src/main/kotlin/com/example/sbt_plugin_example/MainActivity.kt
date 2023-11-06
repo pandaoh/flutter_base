@@ -1,4 +1,4 @@
-package com.example.sbt_plugin_example
+package com.stpass.sbt_rfid_pda
 
 import io.flutter.embedding.android.FlutterActivity
 
