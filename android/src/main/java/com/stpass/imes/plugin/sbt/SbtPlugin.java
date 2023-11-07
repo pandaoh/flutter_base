@@ -9,7 +9,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
 public class SbtPlugin implements FlutterPlugin, MethodCallHandler {
-  
+
     private MethodChannel channel;
 
     @Override
@@ -21,7 +21,7 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler {
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("getPlatformVersion")) {
-            result.success("Android:" + android.os.Build.VERSION.RELEASE);
+            result.success("Android Version:" + android.os.Build.VERSION.RELEASE);
         } else {
             result.notImplemented();
         }
@@ -30,5 +30,5 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler {
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPlugin.FlutterPluginBinding binding) {
         channel.setMethodCallHandler(null);
-    } 
+    }
 }
