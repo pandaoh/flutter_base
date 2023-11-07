@@ -1,25 +1,32 @@
-group 'com.example.sbt_plugin'
+group 'com.stpass.imes.plugin.sbt'
 version '1.0-SNAPSHOT'
 
 buildscript {
     repositories {
+        maven { url 'https://maven.aliyun.com/repository/google'}
+        maven { url 'https://maven.aliyun.com/repository/public'}
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.1.3'
     }
 }
 
 rootProject.allprojects {
     repositories {
+        maven { url 'https://maven.aliyun.com/repository/google'}
+        maven { url 'https://maven.aliyun.com/repository/public'}
         google()
         mavenCentral()
     }
 }
 
 apply plugin: 'com.android.library'
+apply from: './resolve_dependencies.gradle'
+//直接引用下面的脚本返回AssertionError appProject = null,调整gradle脚本
+//apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     compileSdkVersion 30

@@ -1,3 +1,4 @@
+### flutter
 .DS_Store
 .dart_tool/
 
@@ -5,4 +6,15 @@
 .pub/
 
 build/
-.idea/
+
+
+### gradle
+**/.gradle
+**/*-wrapper.jar
+
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr

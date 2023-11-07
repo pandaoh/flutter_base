@@ -1,4 +1,4 @@
-package com.example.sbt_plugin;
+package com.stpass.imes.plugin.sbt;
 
 import androidx.annotation.NonNull;
 
@@ -15,13 +15,13 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler {
     @Override
     public void onAttachedToEngine(@NonNull FlutterPlugin.FlutterPluginBinding binding) {
         channel = new MethodChannel(binding.getBinaryMessenger(), "sbt_plugin");
-        channel.setMethodCallHandler(this); 
-    } 
+        channel.setMethodCallHandler(this);
+    }
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("getPlatformVersion")) {
-            result.success("Android STPASS " + android.os.Build.VERSION.RELEASE);
+            result.success("Android:" + android.os.Build.VERSION.RELEASE);
         } else {
             result.notImplemented();
         }
