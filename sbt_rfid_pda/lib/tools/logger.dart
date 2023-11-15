@@ -12,6 +12,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:sbt_rfid_pda/config/global.dart';
 
+// 待办：日志转 utf-8 编码保存
 class Logger {
   static Future<void> logError(dynamic error, StackTrace stackTrace) async {
     final errorInfo = _formatError(error, stackTrace);
