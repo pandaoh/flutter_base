@@ -2,9 +2,9 @@
  * @Author: HxB
  * @Date: 2023-11-02 16:50:42
  * @LastEditors: DoubleAm
- * @LastEditTime: 2023-11-03 10:23:19
+ * @LastEditTime: 2023-11-15 10:52:02
  * @Description: 主程序
- * @FilePath: \rfid_pda\lib\main.dart
+ * @FilePath: \sbt_rfid_pda\sbt_rfid_pda\lib\main.dart
  */
 import 'dart:async';
 import 'dart:io';
@@ -14,6 +14,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sbt_rfid_pda/tools/logger.dart';
+import 'config/global.dart';
 import 'providers/main_model.dart';
 import 'config/routes.dart';
 
@@ -79,6 +80,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         Logger.logInfo('应用进入前台');
+        // if (null) {
+        //   // TEST ERROR
+        // }
         break;
       case AppLifecycleState.inactive:
         Logger.logInfo('应用处于闲置状态，切换到后台');
@@ -94,6 +98,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    Logger.logInfo('程序运行===>${Global.IS_DEV ? '开发' : '生产'}环境');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       builder: EasyLoading.init(),

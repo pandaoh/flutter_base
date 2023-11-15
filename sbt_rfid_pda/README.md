@@ -1,6 +1,10 @@
-# sbt_rfid_pda
+# rfid_pda_flutter_demo
 
-> 智能制造新设备 PDA 重构
+> 新设备 PDA 重构
+
+## 启动
+
+> `flutter run` or `F5 By VsCode`
 
 ## 打包
 
@@ -29,7 +33,8 @@ README.md-项目说明文件
 ## 开发注意事项
 
 * 推荐环境：`Flutter 2.5.3`、`Dart 2.14.4`、`java version "1.8.0_221"`
-* [Flutter 环境搭建参考](https://sharing8.yuque.com/vi2gfy/ii2v9m/owofbq)
-* 正式环境打包需**配置证书**
+* 正式环境打包记得需**配置证书**
 * 修改依赖配置文件需会重新执行 `flutter pub get`
 * 截屏指令 `flutter screenshot`
+* 清除缓存 `flutter clean`
+* 录屏 `adb shell screenrecord /sdcard/test.mp4` 执行开始录屏，CTRL+C终止录屏，后面为保存路径（adb设备目录）。
