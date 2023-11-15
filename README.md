@@ -39,7 +39,10 @@ sbt_rfid_pda-APP 目录
 [ ] 登录页
 [ ] 首页
 [ ] appBar 导航栏、启动图、图标
-[ ] 加密解密算法插件
+[x] 加密解密算法插件
 [ ] apk 生产环境证书签名
-[ ] apk 授权认证系统
+[ ] apk 授权认证系统-device_info
 [ ] 日志上传云端
+[ ] TTS
+[ ] JSON-VIEW
+[ ] SliverHeader

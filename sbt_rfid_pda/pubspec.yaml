@@ -29,7 +29,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  # custom
+  # custom https://pub.dev/
   provider: ^4.3.2
   shared_preferences: ^2.0.6
   dio: ^4.0.6
@@ -38,6 +38,7 @@ dependencies:
   path_provider: ^2.0.2
   flutter_easyloading: ^2.2.2
   bruno: ^3.0.0 # https://bruno.ke.com/page/widgets/brn-abnormal-state-widget
+  crypto: 2.1.4 # https://pub.dev/packages/crypto/versions/2.1.4
 
 dev_dependencies:
   flutter_test:
