@@ -10,4 +10,8 @@ class Helper {
   static demo() async {
     // do something
   }
+
+  static getApiUrl() async {
+    return 'http://192.168.110.13';
+  }
 }

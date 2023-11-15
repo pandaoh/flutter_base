@@ -42,7 +42,7 @@ class Logger {
       // getApplicationDocumentsDirectory
       final appDir = await getExternalStorageDirectory();
       final dateDirectoryName = DateTime.now().toString().split(' ')[0];
-      final dateDirectory = Directory('${appDir.path}/$dateDirectoryName');
+      final dateDirectory = Directory('${appDir.path}/logs/$dateDirectoryName');
       if (!(await dateDirectory.exists())) {
         await dateDirectory.create();
       }

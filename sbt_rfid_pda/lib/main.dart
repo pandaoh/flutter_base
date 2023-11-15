@@ -2,7 +2,7 @@
  * @Author: HxB
  * @Date: 2023-11-02 16:50:42
  * @LastEditors: DoubleAm
- * @LastEditTime: 2023-11-15 10:52:02
+ * @LastEditTime: 2023-11-15 16:03:15
  * @Description: 主程序
  * @FilePath: \sbt_rfid_pda\sbt_rfid_pda\lib\main.dart
  */
@@ -101,6 +101,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     Logger.logInfo('程序运行===>${Global.IS_DEV ? '开发' : '生产'}环境');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Colors.white,
+      ),
       builder: EasyLoading.init(),
       home: Scaffold(
         body: MaterialApp(
