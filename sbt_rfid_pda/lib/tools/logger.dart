@@ -2,17 +2,15 @@
  * @Author: HxB
  * @Date: 2023-11-03 10:10:35
  * @LastEditors: DoubleAm
- * @LastEditTime: 2023-11-15 10:54:04
+ * @LastEditTime: 2023-11-17 15:06:12
  * @Description: 日志打印工具封装
  * @FilePath: \sbt_rfid_pda\sbt_rfid_pda\lib\tools\logger.dart
  */
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:sbt_rfid_pda/config/global.dart';
+import 'package:sbt_rfid_pda/tools/fs.dart';
 
-// 待办：日志转 utf-8 编码保存
 class Logger {
   static Future<void> logError(dynamic error, StackTrace stackTrace) async {
     final errorInfo = _formatError(error, stackTrace);
@@ -41,29 +39,19 @@ class Logger {
   static Future<void> _writeLogToFile(String logInfo) async {
     try {
       // getApplicationDocumentsDirectory
-      final appDir = await getExternalStorageDirectory();
+      final appDir = await Fs.getApplicationDocumentsDirectory();
       final dateDirectoryName = DateTime.now().toString().split(' ')[0];
-      final logDirectory = Directory('${appDir.path}/logs');
-      if (!(await logDirectory.exists())) {
-        await logDirectory.create();
-      }
-      final dateDirectory = Directory('${appDir.path}/logs/$dateDirectoryName');
-      if (!(await dateDirectory.exists())) {
-        await dateDirectory.create();
-      }
-
+      final dateDirectory = '${appDir.path}/logs/$dateDirectoryName';
+      await Fs.createDirectory(dateDirectory);
       final timeFileName = DateTime.now().hour.toString();
-      final logFile = File('${dateDirectory.path}/$timeFileName.txt');
-      if (!(await logFile.exists())) {
-        await logFile.create();
-      }
+      final logFile = '$dateDirectory/$timeFileName.txt';
 
       // 上报到云端
-      await logFile.writeAsString('$logInfo\n\n', mode: FileMode.append);
+      await Fs.setFileContent(logFile, '\n' + logInfo + '\n', append: true);
     } catch (e) {
       // 上报到云端
       if (Global.IS_DEV) {
-        log('Error writing log file: $e');
+        log('Error _writeLogToFile: $e');
       }
     }
   }

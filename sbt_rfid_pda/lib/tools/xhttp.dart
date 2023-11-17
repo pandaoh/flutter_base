@@ -144,7 +144,7 @@ class XHttp {
       ),
     );
     Logger.logDebug(
-        "\n初始化 Dio 完成\n请求超时限制：$CONNECT_TIMEOUT ms\n接收超时限制：$RECEIVE_TIMEOUT ms\n发送超时限制：$SEND_TIMEOUT ms\nDio-BaseUrl：${dio.options.baseUrl}\nDio-Headers：${dio.options.headers}");
+        "\n 初始化请求工具完成 \n 请求超时限制：$CONNECT_TIMEOUT ms \n 接收超时限制：$RECEIVE_TIMEOUT ms \n 发送超时限制：$SEND_TIMEOUT ms \n Dio-BaseUrl：${dio.options.baseUrl} \n Dio-Headers：${dio.options.headers}");
   }
 
   /// 请求 request 之前统一处理
