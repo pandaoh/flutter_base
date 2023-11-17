@@ -2,7 +2,7 @@
  * @Author: HxB
  * @Date: 2023-11-15 18:00:07
  * @LastEditors: DoubleAm
- * @LastEditTime: 2023-11-17 15:49:51
+ * @LastEditTime: 2023-11-17 15:54:23
  * @Description: 文件管理
  * @FilePath: \sbt_rfid_pda\sbt_rfid_pda\lib\tools\fs.dart
  */
@@ -13,7 +13,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sbt_rfid_pda/tools/logger.dart';
 
 class Fs {
-  static Queue<_FileWriteOperation> _writeQueue = Queue<_FileWriteOperation>();
+  static final Queue<_FileWriteOperation> _writeQueue = Queue<_FileWriteOperation>();
   static bool _isWriting = false;
 
   static Future<void> setFileContent(String filePath, String data, {bool append = false}) async {
