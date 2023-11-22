@@ -9,4 +9,13 @@ class SbtPlugin {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
+
+  static startInventoryTag() {
+    _channel.invokeMethod('startInventoryTag');
+  }
+
+  static stopInventory() {
+    _channel.invokeMethod('stopInventory');
+  }
+
 }
