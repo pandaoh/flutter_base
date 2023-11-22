@@ -8,8 +8,9 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:sbt_plugin/sbt_plugin.dart';
 import 'package:sbt_rfid_pda/tools/logger.dart';
-import 'package:sbt_rfid_pda/widgets/x_button.dart'; 
+import 'package:sbt_rfid_pda/widgets/x_button.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({Key key}) : super(key: key);
@@ -50,7 +51,7 @@ class _TestPageState extends State<TestPage> {
               key: button['key'],
               onClick: () async {
                 Logger.logInfo('${button['name']} 点击');
-                EasyLoading.showSuccess('${button['name']} 点击');
+                EasyLoading.showSuccess('${button['name']} 点击${SbtPlugin.platformVersion}');
               },
             );
           }).toList(),
