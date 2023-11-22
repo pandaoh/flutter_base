@@ -26,7 +26,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
  */
 @SuppressWarnings({"SpellCheckingInspection","unused"})
 public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandler {
-    static String TAG = "CwRfidPlugin";
+    static String TAG = "SbtPlugin";
 
     private MethodChannel channel;
     private EventChannel eventChannel;
@@ -78,7 +78,7 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
                 // uhfReader.setDisabledInitPlay((Boolean) call.argument("disabledInitPlay"));
                 break;
             case "initRfid":
-                uhfReader.init();
+                uhfReader.init(context);
                 break;
             case "rfidFree":
                 uhfReader.free();
