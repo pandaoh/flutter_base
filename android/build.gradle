@@ -46,4 +46,5 @@ android {
 }
 
 dependencies {
+    api fileTree(include: ['*.*'], dir: 'libs')
 }
