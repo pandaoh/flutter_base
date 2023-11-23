@@ -13,6 +13,7 @@ import com.stpass.imes.plugin.sbt.utils.MessageContent;
 import com.stpass.imes.plugin.sbt.utils.SoundPlayer;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.EventChannel.StreamHandler;
 import io.flutter.plugin.common.MethodCall;
@@ -24,7 +25,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
 /**
  * CwrfidPlugin
  */
-@SuppressWarnings({"SpellCheckingInspection","unused"})
+@SuppressWarnings({"SpellCheckingInspection", "unused"})
 public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandler {
     static String TAG = "sbt_plugin";
 
@@ -41,11 +42,16 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+        BinaryMessenger messenger = flutterPluginBinding.getBinaryMessenger();
+
         context = flutterPluginBinding.getApplicationContext();
-        channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "sbt_plugin");
+
+        channel = new MethodChannel(messenger, "sbt_plugin/method");
         channel.setMethodCallHandler(this);
-        eventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "sbt_plugin/event_channel");
+
+        eventChannel = new EventChannel(messenger, "sbt_plugin/event");
         eventChannel.setStreamHandler(this);
+
         soundPlayer = SoundPlayer.getInstance().init(context);
         uhfReader = UHFReaderService.getInstance();
         uhfReader.setSoundPlayer(soundPlayer);
@@ -60,6 +66,8 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+        Log.d(TAG, "==========================================");
+        Log.d(TAG, "onMethodCall: " + call.method);
         switch (call.method) {
             case "getPlatformVersion":
                 result.success("Android666 " + android.os.Build.VERSION.RELEASE);
@@ -94,7 +102,7 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
                 break;
             case "setPower":
                 Integer n = call.argument("n");
-                uhfReader.setPower(n==null?5:n);
+                uhfReader.setPower(n == null ? 5 : n);
                 break;
             case "getPower":
                 uhfReader.getPower();
@@ -121,7 +129,7 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
                 break;
             case "soundPlayer":
                 String soundType = call.argument("soundType");
-                soundPlayer(soundType == null ? "ERROR" : soundType);
+                soundPlayer.play(soundType == null ? "ERROR" : soundType);
                 break;
             case "scan1DBarcodeStop":
                 barcode1D.stopScan(context);
@@ -145,8 +153,8 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
     @Override
     public void onListen(Object arguments, EventChannel.EventSink events) {
         sink = events;
-        if(uhfReader == null || barcode1D == null || barcode2D == null)
-            Log.d(TAG, String.format("uhfReader=%s,1D=%s,2D=%s",uhfReader,barcode1D,barcode2D));
+        if (uhfReader == null || barcode1D == null || barcode2D == null)
+            Log.d(TAG, String.format("uhfReader=%s,1D=%s,2D=%s", uhfReader, barcode1D, barcode2D));
 
         uhfReader.buildMessageHandlerBySetSink(sink);
         barcode1D.buildMessageHandlerBySetSink(sink);
@@ -159,30 +167,7 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
     }
 
     public void testSkin() {
-        Log.d(TAG, "taskSkin"+this.sink);
+        Log.d(TAG, "taskSkin" + this.sink);
     }
 
-    private void soundPlayer(String soundType) {
-        switch (soundType) {
-            case "SUCCESS":
-                soundPlayer.playSuccess();
-                break;
-            case "ERROR":
-                soundPlayer.playError();
-                break;
-            case "WARNING":
-                soundPlayer.playWarning();
-                break;
-            case "REGGED":
-                soundPlayer.playRegged();
-                break;
-            case "VIBRATOR":
-                soundPlayer.playVibrator();
-                break;
-            case "VIBRATOR_ERROR":
-                soundPlayer.playFailedVibrator();
-                break;
-            default:
-        }
-    }
 }

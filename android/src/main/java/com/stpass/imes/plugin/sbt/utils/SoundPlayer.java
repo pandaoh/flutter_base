@@ -88,4 +88,28 @@ public class SoundPlayer {
     public void playFailedVibrator() {
         vibrator.vibrate(VibrationEffect.createOneShot(VibrationEffect.DEFAULT_AMPLITUDE, 500));
     }
+
+    public void play(String soundType) {
+        switch (soundType) {
+            case "SUCCESS":
+                playSuccess();
+                break;
+            case "ERROR":
+                playError();
+                break;
+            case "WARNING":
+                playWarning();
+                break;
+            case "REGGED":
+                playRegged();
+                break;
+            case "VIBRATOR":
+                playVibrator();
+                break;
+            case "VIBRATOR_ERROR":
+                playFailedVibrator();
+                break;
+            default:
+        }
+    }
 }

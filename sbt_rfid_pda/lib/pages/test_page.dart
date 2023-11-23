@@ -22,12 +22,34 @@ class TestPage extends StatefulWidget {
 class _TestPageState extends State<TestPage> {
   final List<Map<String, dynamic>> buttons = [
     {
-      'name': 'Button 1',
-      'key': Key('button1'),
+      'name': 'INIT EVENT',
+      'key': Key('button'),
+      'func': 'eventInit'
     },
     {
-      'name': 'Button 2',
+      'name': 'SUCCESS SOUND',
+      'key': Key('button0'),
+      'func': 'soundPlayer'
+    },
+    {
+      'name': '初始化RFID',
+      'key': Key('button1'),
+      'func': 'initRfid'
+    },
+    {
+      'name': '关闭RFID模块',
       'key': Key('button2'),
+      'func': 'rfidFree'
+    },
+    {
+      'name': '开始盘点',
+      'key': Key('button3'),
+      'func': 'startInventoryTag'
+    },
+    {
+      'name': '停止盘点',
+      'key': Key('button4'),
+      'func': 'stopInventory'
     },
   ];
 
@@ -50,11 +72,27 @@ class _TestPageState extends State<TestPage> {
               name: button['name'],
               key: button['key'],
               onClick: () async {
-                SbtPlugin.platformVersion.then((value) => {
-                  Logger.logInfo('${button['name']} 点击$value'),
-                  EasyLoading.showSuccess('${button['name']} 点击$value')
-                });
-                SbtPlugin.initRfid();
+                Logger.logInfo('${button['name']} 点击');
+                EasyLoading.showSuccess('${button['name']} 点击');
+                var n = button['func'];
+                if(n=='eventInit'){
+                  SbtPlugin.eventInit();
+                }
+                if(n=='soundPlayer'){
+                  SbtPlugin.soundPlayer();
+                }
+                if(n == 'initRfid'){
+                  SbtPlugin.initRfid();
+                }
+                if(n == 'rfidFree'){
+                  SbtPlugin.rfidFree();
+                }
+                if(n == 'startInventoryTag'){
+                  SbtPlugin.startInventoryTag();
+                }
+                if(n == 'stopInventory'){
+                  SbtPlugin.stopInventory();
+                }
               },
             );
           }).toList(),
