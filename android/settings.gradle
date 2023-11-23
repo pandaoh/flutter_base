@@ -1,1 +1,2 @@
 rootProject.name = 'sbt_plugin'
+include ':sbt_plugin'

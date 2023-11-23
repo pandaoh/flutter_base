@@ -19,6 +19,7 @@ public class Barcode1DService extends BaseOperatorService {
     public boolean loopBar = false;
     private IBarcodeSender barcodeSender;
     private ScanInterface scanDecode;
+    private BarcodeDataReceiver barcodeDataReceiver;
 
     private Barcode1DService() {
     }
@@ -124,8 +125,8 @@ public class Barcode1DService extends BaseOperatorService {
 //            barcodeUtility.setBarcodeEncodingFormat(context, 1);
 //            pushMessageAndPlaySound(buildMessageContent(true,"initBarcode1DWithSoft","设置1D条形码",null));
 
-            this.scan.scanDecode = new ScanDecode(context);
-            this.scan.scanDecode.initService("true");//打开
+            this.scanDecode = new ScanDecode(context);
+            this.scanDecode.initService("true");//打开
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e) {

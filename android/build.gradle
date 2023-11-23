@@ -20,6 +20,9 @@ rootProject.allprojects {
         maven { url 'https://maven.aliyun.com/repository/public'}
         google()
         mavenCentral()
+        flatDir {
+            dirs project(':sbt_plugin').file('libs')
+        }
     }
 }
 
@@ -46,5 +49,9 @@ android {
 }
 
 dependencies {
-    api fileTree(include: ['*.*'], dir: 'libs')
+    // 导入jar包
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    // 导入aar包
+    implementation (name: 'libDevice_v1.7.8_2022-06-17', ext: 'aar')
+    implementation (name: 'libUHF_v3.2.24_20231008', ext: 'aar')
 }
