@@ -39,8 +39,8 @@ public class Barcode1DService extends BaseOperatorService {
     }
 
     public void initBarcode1DWithSoft(Context context){
-//        EXEC.execute(new InitTask1DScan11(context, this));
-//        pushMessageAndPlaySound(buildMessageContent(true, "initBarcode1DWithSoft","开始启动条码初始化",null));
+        EXEC.execute(new InitTask1DScan11(context, this));
+        pushMessageAndPlaySound(buildMessageContent(true, "initBarcode1DWithSoft","开始启动条码初始化",null));
     }
 
     private static class InitTask1DScan11 implements Runnable {
