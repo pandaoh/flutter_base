@@ -50,8 +50,11 @@ class _TestPageState extends State<TestPage> {
               name: button['name'],
               key: button['key'],
               onClick: () async {
-                Logger.logInfo('${button['name']} 点击');
-                EasyLoading.showSuccess('${button['name']} 点击${SbtPlugin.platformVersion}');
+                SbtPlugin.platformVersion.then((value) => {
+                  Logger.logInfo('${button['name']} 点击$value'),
+                  EasyLoading.showSuccess('${button['name']} 点击$value')
+                });
+                SbtPlugin.initRfid();
               },
             );
           }).toList(),

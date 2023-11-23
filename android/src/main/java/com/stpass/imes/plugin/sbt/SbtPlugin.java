@@ -26,7 +26,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
  */
 @SuppressWarnings({"SpellCheckingInspection","unused"})
 public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandler {
-    static String TAG = "SbtPlugin";
+    static String TAG = "sbt_plugin";
 
     private MethodChannel channel;
     private EventChannel eventChannel;
@@ -42,9 +42,9 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         context = flutterPluginBinding.getApplicationContext();
-        channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "com.stpass.cwrfid/plugin");
+        channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "sbt_plugin");
         channel.setMethodCallHandler(this);
-        eventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "com.stpass.cwrfid/event_channel");
+        eventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "sbt_plugin/event_channel");
         eventChannel.setStreamHandler(this);
         soundPlayer = SoundPlayer.getInstance().init(context);
         uhfReader = UHFReaderService.getInstance();
