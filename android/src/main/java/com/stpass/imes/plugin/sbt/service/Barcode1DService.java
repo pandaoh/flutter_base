@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.util.Log;
 
 import com.stpass.imes.plugin.sbt.utils.MessageContent;
+import com.scandecode.ScanDecode;
+import com.scandecode.inf.ScanInterface;
 
 
 public class Barcode1DService extends BaseOperatorService {
@@ -16,6 +18,7 @@ public class Barcode1DService extends BaseOperatorService {
     // 条码是否正在扫描
     public boolean loopBar = false;
     private IBarcodeSender barcodeSender;
+    private ScanInterface scanDecode;
 
     private Barcode1DService() {
     }
@@ -41,52 +44,53 @@ public class Barcode1DService extends BaseOperatorService {
     }
 
     private static class InitTask1DScan11 implements Runnable {
-//        Context context;
-//        Barcode1DService scan;
-//        public InitTask1DScan11(Context context, Barcode1DService scan){
-//            this.context = context;
-//            this.scan = scan;
-//            if(this.scan.barcodeUtility != null) this.scan.close(context);
-//            this.scan.barcodeUtility = BarcodeUtility.getInstance();
-//        }
+        Context context;
+        Barcode1DService scan;
+        public InitTask1DScan11(Context context, Barcode1DService scan){
+            this.context = context;
+            this.scan = scan;
+            if(this.scan.scanDecode != null) this.scan.close(context);
+            this.scan.scanDecode = new ScanDecode(context);
+            this.scan.scanDecode.initService("true");
+        }
         @Override
         public void run() {
-//            scan.open(context, new IBarcodeSender() {
-//                @Override
-//                public void sendBarcodeWithFlutter(String barcode) {
-//                    MessageContent params = scan.buildMessageContent(true, "getBarcode", "BARCODE", null);
-//                    params.data = barcode;
-//                    scan.loopBar = false;
-//                    scan.pushMessageAndPlaySound(params);
-//                }
-//                @Override
-//                public void sendErrWithFlutter(String errMsg) {
-//                    scan.loopBar = false;
-//                    scan.pushMessageAndPlaySound(scan.buildMessageContent(false, "getBarcode",
-//                            "1D-BARCODE扫码失败", errMsg));
-//                }
-//            });
+            scan.open(context, new IBarcodeSender() {
+                @Override
+                public void sendBarcodeWithFlutter(String barcode) {
+                    MessageContent params = scan.buildMessageContent(true, "getBarcode", "BARCODE", null);
+                    params.data = barcode;
+                    scan.loopBar = false;
+                    scan.pushMessageAndPlaySound(params);
+                }
+                @Override
+                public void sendErrWithFlutter(String errMsg) {
+                    scan.loopBar = false;
+                    scan.pushMessageAndPlaySound(scan.buildMessageContent(false, "getBarcode",
+                            "1D-BARCODE扫码失败", errMsg));
+                }
+            });
         }
     }
 
     //开始扫码
     public void startScan(Context context) {
-//        if (barcodeUtility != null) {
-//            barcodeUtility.startScan(context, BarcodeUtility.ModuleType.BARCODE_1D);
-//            loopBar = true;
-//            pushMessageAndPlaySound(buildMessageContent(true,"scan1DBarcode", "1DBarcode开始扫码成功",null));
-//        }else{
-//            pushMessageAndPlaySound(buildMessageContent(false,"scan1DBarcode", "1DBarcode开始扫码失败", "barcodeUtilityIsNull"));
-//        }
+        if (scanDecode != null) {
+            scanDecode.starScan();
+            loopBar = true;
+            pushMessageAndPlaySound(buildMessageContent(true,"scan1DBarcode", "1DBarcode开始扫码成功",null));
+        }else{
+            pushMessageAndPlaySound(buildMessageContent(false,"scan1DBarcode", "1DBarcode开始扫码失败", "barcodeUtilityIsNull"));
+        }
     }
 
     //停止扫描
     public void stopScan(Context context) {
-//        if (barcodeUtility != null) {
-//            String TAG = "Scanner_barcodeTest";
-//            Log.i(TAG, "stopScan1D");
-//            barcodeUtility.stopScan(context, BarcodeUtility.ModuleType.BARCODE_1D);
-//        }
+        if (scanDecode != null) {
+            String TAG = "Scanner_barcodeTest";
+            Log.i(TAG, "stopScan1D");
+            scanDecode.stopScan();
+        }
     }
 
     protected MessageContent buildMessageContent(boolean isOk,String fun, String message, Object err){
@@ -107,8 +111,8 @@ public class Barcode1DService extends BaseOperatorService {
 
     //打开
     public void open(Context context, IBarcodeSender barcodeSender) {
-//        if (barcodeUtility != null && context != null) {
-//            this.barcodeSender = barcodeSender;
+        if (scanDecode != null && context != null) {
+            this.barcodeSender = barcodeSender;
 //            barcodeUtility.setOutputMode(context, 2);//设置广播接收数据
 //            barcodeUtility.setScanResultBroadcast(context, "com.scanner.broadcast", "data");//设置接收数据的广播
 //            barcodeUtility.setReleaseScan(context, false);//设置松开扫描按键，不停止扫描
@@ -119,37 +123,38 @@ public class Barcode1DService extends BaseOperatorService {
 //            barcodeUtility.enableEnter(context, false);//关闭回车
 //            barcodeUtility.setBarcodeEncodingFormat(context, 1);
 //            pushMessageAndPlaySound(buildMessageContent(true,"initBarcode1DWithSoft","设置1D条形码",null));
-//
-//            barcodeUtility.open(context, BarcodeUtility.ModuleType.BARCODE_1D);//打开
-//            try {
-//                Thread.sleep(300);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//
-//            if (barcodeDataReceiver == null) {
-//                barcodeDataReceiver = new BarcodeDataReceiver();
-//                IntentFilter intentFilter = new IntentFilter();
-//                intentFilter.addAction("com.scanner.broadcast");
-//                context.registerReceiver(barcodeDataReceiver, intentFilter);
-//            }
-//            pushMessageAndPlaySound(buildMessageContent(true,"initBarcode1DWithSoft","启动1D条形码成功",null));
-//            isBarcodeOpen = true;
-//        }else{
-//            pushMessageAndPlaySound(buildMessageContent(false,"initBarcode1DWithSoft", "启动1D条形码失败", "barcodeUtilityOrContext Is NULL"));
-//        }
+
+            this.scan.scanDecode = new ScanDecode(context);
+            this.scan.scanDecode.initService("true");//打开
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if (barcodeDataReceiver == null) {
+                barcodeDataReceiver = new BarcodeDataReceiver();
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction("com.scanner.broadcast");
+                context.registerReceiver(barcodeDataReceiver, intentFilter);
+            }
+            pushMessageAndPlaySound(buildMessageContent(true,"initBarcode1DWithSoft","启动1D条形码成功",null));
+            isBarcodeOpen = true;
+        }else{
+            pushMessageAndPlaySound(buildMessageContent(false,"initBarcode1DWithSoft", "启动1D条形码失败", "barcodeUtilityOrContext Is NULL"));
+        }
     }
 
     //关闭
     public void close(Context context) {
-//        if (barcodeUtility != null && context != null) {
-//            barcodeUtility.close(context, BarcodeUtility.ModuleType.BARCODE_1D);//关闭
-//            if (barcodeDataReceiver != null) {
-//                context.unregisterReceiver(barcodeDataReceiver);
-//                barcodeDataReceiver = null;
-//            }
-//            isBarcodeOpen = false;
-//        }
+        if (scanDecode != null && context != null) {
+            scanDecode.onDestroy();//关闭
+            if (barcodeDataReceiver != null) {
+                context.unregisterReceiver(barcodeDataReceiver);
+                barcodeDataReceiver = null;
+            }
+            isBarcodeOpen = false;
+        }
     }
 
     protected class BarcodeDataReceiver extends BroadcastReceiver {
