@@ -144,6 +144,8 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
     @Override
     public void onListen(Object arguments, EventChannel.EventSink events) {
+        Log.d(TAG, "==============================================================");
+        Log.d(TAG, "onListen: " + events);
         sink = events;
         if (uhfReader == null || barcode1D == null || barcode2D == null)
             Log.d(TAG, String.format("uhfReader=%s,1D=%s,2D=%s", uhfReader, barcode1D, barcode2D));

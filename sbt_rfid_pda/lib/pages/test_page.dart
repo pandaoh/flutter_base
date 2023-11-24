@@ -9,6 +9,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sbt_plugin/call.dart';
 import 'package:sbt_plugin/sbt_plugin.dart';
@@ -24,20 +25,28 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
 
+  static const keycodeStream = EventChannel('com.stpass.blood_rfid_pda/keycode');
+
   @override
   void initState() {
     super.initState();
-    Call.addCallBack('native-to-view', _callback);
+    Call.addCallBack('native-to-view', _methodCallback);
     SbtPlugin.eventInit();
+    keycodeStream.receiveBroadcastStream().listen(_keycodeCallBack);
   }
 
   @override
   void dispose() {
-    Call.removeCallBack('native-to-view', _callback);
+    Call.removeCallBack('native-to-view', _methodCallback);
     super.dispose();
   }
 
-  _callback(d) {
+  _methodCallback(d) {
+    log("================================FLUTTER====================================");
+    log('$d');
+  }
+
+  _keycodeCallBack(d){
     log("================================FLUTTER====================================");
     log('$d');
   }
