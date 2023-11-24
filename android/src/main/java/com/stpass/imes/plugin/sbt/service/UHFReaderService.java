@@ -2,6 +2,7 @@ package com.stpass.imes.plugin.sbt.service;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
@@ -9,7 +10,7 @@ import com.speedata.libuhf.bean.SpdInventoryData;
 import com.speedata.libuhf.bean.SpdReadData;
 import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
 import com.speedata.libuhf.interfaces.OnSpdReadListener;
-import com.stpass.imes.plugin.sbt.utils.CommonUtils;
+import com.speedata.libuhf.utils.ErrorStatus;
 import com.stpass.imes.plugin.sbt.utils.MessageContent;
 
 public class UHFReaderService extends BaseOperatorService {
@@ -25,6 +26,8 @@ public class UHFReaderService extends BaseOperatorService {
     // 默认功率
     int rfidPower = 10;
 
+    Context context;
+
     private UHFReaderService() {
     }
 
@@ -38,53 +41,29 @@ public class UHFReaderService extends BaseOperatorService {
 
     private OnSpdInventoryListener newInventoryListener() {
         return new OnSpdInventoryListener() {
-
             @Override
-            public void getInventoryData(SpdInventoryData spdInventoryData) {
-                System.out.println(spdInventoryData);
+            public void getInventoryData(SpdInventoryData data) {
+                MessageContent params = new MessageContent();
+                params.fun = "TagThread";
+                params.type = "RFID";
+                params.messageType = "SUCCESS";
+                params.message = "RFID扫描结果";
+                params.data = data.tid;
+                params.epcData = data.epc;
+                pushMessageAndPlaySound(params);
             }
 
             @Override
             public void onInventoryStatus(int i) {
-                System.out.println(i);
-            }
-        };
-    }
-
-    private OnSpdReadListener newReadListener() {
-        return new OnSpdReadListener() {
-            @Override
-            public void getReadData(SpdReadData spdReadData) {
-                String strTid;
-                String strResult;
-                //TODO 读卡回调
-                if (spdReadData.getStatus() == 0) {
-                    //读卡成功
-                    byte[] readData = spdReadData.getReadData();
-                    strTid = new String(readData);
-                    if (strTid.length() != 0 && !strTid.equals("0000000" + "000000000")
-                            && !strTid.equals("000000000000000000000000")) {
-                        strResult = strTid;
-                    } else {
-                        strResult = "";
-                    }
-                    MessageContent params = new MessageContent();
-                    params.fun = "TagThread";
-                    params.type = "RFID";
-                    params.messageType = "SUCCESS";
-                    params.message = "RFID扫描结果";
-                    params.data = strResult;
-                    pushMessageAndPlaySound(params);
-                } else {
-                    //读卡失败
-                }
+                String errorStatus = ErrorStatus.getErrorStatus(context, i);
+                Log.d(TAG, "onInventoryStatus: " + errorStatus);
             }
         };
     }
 
     public void init(Context context) {
         isInitialization = true;
-
+        this.context = context;
         MessageContent params = new MessageContent();
         params.type = "RFID";
         params.fun = "initRfid";
@@ -95,8 +74,6 @@ public class UHFReaderService extends BaseOperatorService {
         iuhfService = UHFManager.getUHFService(context);
         // 添加盘点监听
         iuhfService.setOnInventoryListener(newInventoryListener());
-        // 添加读监听
-        iuhfService.setOnReadListener(newReadListener());
 
         EXEC.execute(() -> initFunc());
     }
@@ -210,7 +187,7 @@ public class UHFReaderService extends BaseOperatorService {
             params.message = "初始化RFID成功";
             isOpenRfidModule = true;
             // 设置循环盘点同时读取 EPC、TID 模式
-            iuhfService.setInvMode(1, 0, 0);
+            iuhfService.setInvMode(1, 0, 12);
             // 设置功率
             iuhfService.setAntennaPower(rfidPower);
         } else {

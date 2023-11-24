@@ -66,24 +66,13 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-        Log.d(TAG, "==========================================");
-        Log.d(TAG, "onMethodCall: " + call.method);
         switch (call.method) {
             case "getPlatformVersion":
-                result.success("Android666 " + android.os.Build.VERSION.RELEASE);
+                result.success("Android11 " + android.os.Build.VERSION.RELEASE);
                 break;
             case "toast":
                 String txt = call.argument("text");
                 Toast.makeText(context, txt, Toast.LENGTH_LONG).show();
-                break;
-            case "eventChannelTest":
-            case "setDisabledInitPlay":
-                MessageContent params = new MessageContent();
-                params.type = "OTHER";
-                params.messageType = "SUCCESS";
-                params.message = "No setDisabledInitPlay";
-                uhfReader.pushMessageAndPlaySound(params);
-                // uhfReader.setDisabledInitPlay((Boolean) call.argument("disabledInitPlay"));
                 break;
             case "initRfid":
                 uhfReader.init(context);
@@ -93,9 +82,6 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
                 break;
             case "startInventoryTag":
                 uhfReader.startScan();
-                break;
-            case "testSkin":
-                testSkin();
                 break;
             case "stopInventory":
                 uhfReader.stopScan();
@@ -107,35 +93,41 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
             case "getPower":
                 uhfReader.getPower();
                 break;
-            case "initBarcode2DWithSoft":
-                barcode2D.initBarcode2DWithSoft(context);
-                break;
-            case "scanBarcode":
-                barcode2D.startScan(context);
-                break;
-            case "barcodeClose":
-                barcode2D.stopScan(context);
-                barcode2D.close(context);
-                break;
             case "initBarcode1DWithSoft":
                 barcode1D.initBarcode1DWithSoft(context);
                 break;
             case "scan1DBarcode":
                 barcode1D.startScan(context);
                 break;
+            case "scan1DBarcodeStop":
+                barcode1D.stopScan(context);
+                break;
             case "barcode1DClose":
-                // barcode1D.stopScan(context);
+                barcode1D.stopScan(context);
                 barcode1D.close(context);
+                break;
+            case "initBarcode2DWithSoft":
+                barcode2D.initBarcode2DWithSoft(context);
+                break;
+            case "scanBarcode":
+                barcode2D.startScan(context);
+                break;
+            case "barcodeStop":
+                barcode2D.stopScan(context);
+                break;
+            case "barcodeClose":
+                barcode2D.stopScan(context);
+                barcode2D.close(context);
                 break;
             case "soundPlayer":
                 String soundType = call.argument("soundType");
                 soundPlayer.play(soundType == null ? "ERROR" : soundType);
                 break;
-            case "scan1DBarcodeStop":
-                barcode1D.stopScan(context);
+            case "testSkin":
                 break;
-            case "barcodeStop":
-                barcode2D.stopScan(context);
+            case "eventChannelTest":
+                break;
+            case "setDisabledInitPlay":
                 break;
             default:
                 result.notImplemented();
@@ -164,10 +156,6 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
     @Override
     public void onCancel(Object arguments) {
         sink = null;
-    }
-
-    public void testSkin() {
-        Log.d(TAG, "taskSkin" + this.sink);
     }
 
 }

@@ -6,8 +6,11 @@
  * @Description: 测试页面
  * @FilePath: \sbt_rfid_pda\sbt_rfid_pda\lib\pages\test_page.dart
  */
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:sbt_plugin/call.dart';
 import 'package:sbt_plugin/sbt_plugin.dart';
 import 'package:sbt_rfid_pda/tools/logger.dart';
 import 'package:sbt_rfid_pda/widgets/x_button.dart';
@@ -20,12 +23,26 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    Call.addCallBack('native-to-view', _callback);
+    SbtPlugin.eventInit();
+  }
+
+  @override
+  void dispose() {
+    Call.removeCallBack('native-to-view', _callback);
+    super.dispose();
+  }
+
+  _callback(d) {
+    log("================================FLUTTER====================================");
+    log('$d');
+  }
+
   final List<Map<String, dynamic>> buttons = [
-    {
-      'name': 'INIT EVENT',
-      'key': Key('button'),
-      'func': 'eventInit'
-    },
     {
       'name': 'SUCCESS SOUND',
       'key': Key('button0'),
@@ -75,9 +92,6 @@ class _TestPageState extends State<TestPage> {
                 Logger.logInfo('${button['name']} 点击');
                 EasyLoading.showSuccess('${button['name']} 点击');
                 var n = button['func'];
-                if(n=='eventInit'){
-                  SbtPlugin.eventInit();
-                }
                 if(n=='soundPlayer'){
                   SbtPlugin.soundPlayer();
                 }
