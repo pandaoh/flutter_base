@@ -44,11 +44,13 @@ class _TestPageState extends State<TestPage> {
   _methodCallback(d) {
     log("================================FLUTTER====================================");
     log('$d');
+    EasyLoading.showSuccess('$d');
   }
 
   _keycodeCallBack(d){
     log("================================FLUTTER====================================");
     log('$d');
+    EasyLoading.showSuccess('$d');
   }
 
   final List<Map<String, dynamic>> buttons = [
