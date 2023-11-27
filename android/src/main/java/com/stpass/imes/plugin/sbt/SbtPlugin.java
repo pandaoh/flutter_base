@@ -46,7 +46,7 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
         context = flutterPluginBinding.getApplicationContext();
 
-        channel = new MethodChannel(messenger, "sbt_plugin/method");
+        channel = new MethodChannel(messenger, "pda/method'");
         channel.setMethodCallHandler(this);
 
         eventChannel = new EventChannel(messenger, "sbt_plugin/event");
@@ -66,6 +66,8 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+        Log.d(TAG, "===============================[SbtPlugin.onMethodCall：" + call.method + "]===================================");
+
         switch (call.method) {
             case "getPlatformVersion":
                 result.success("Android11 " + android.os.Build.VERSION.RELEASE);
@@ -144,8 +146,7 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
     @Override
     public void onListen(Object arguments, EventChannel.EventSink events) {
-        Log.d(TAG, "==============================================================");
-        Log.d(TAG, "onListen: " + events);
+        Log.d(TAG, "===============================[SbtPlugin.onListen()]===================================");
         sink = events;
         if (uhfReader == null || barcode1D == null || barcode2D == null)
             Log.d(TAG, String.format("uhfReader=%s,1D=%s,2D=%s", uhfReader, barcode1D, barcode2D));

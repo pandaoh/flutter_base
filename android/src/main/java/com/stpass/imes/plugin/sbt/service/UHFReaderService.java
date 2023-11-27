@@ -148,6 +148,7 @@ public class UHFReaderService extends BaseOperatorService {
             params.message = "获取RFID功率成功";
             params.data = "" + power;
         } catch (Exception e) {
+            Log.e(TAG, "stopScanerror: ", e);
             params.messageType = "ERROR";
             params.message = "获取RFID功率失败";
             params.data = "";
