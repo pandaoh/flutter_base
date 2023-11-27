@@ -13,13 +13,11 @@ import 'package:flutter/services.dart';
 
 import 'call.dart';
 
-class Cwrfid {
+class Plugin {
   // static final EventBus eventBus = new EventBus();
 
-  static const MethodChannel _channel =
-      MethodChannel('sbt_plugin/method');
-  static const EventChannel _eventChannel =
-      EventChannel('sbt_plugin/event');
+  static const MethodChannel _channel = MethodChannel('pda/method');
+  static const EventChannel _eventChannel = EventChannel('pda/event');
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');

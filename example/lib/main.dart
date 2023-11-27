@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
-    Cwrfid.eventInit();
+    Plugin.eventInit();
     Call.addCallBack('native-to-view', this._callBack);
     stream.receiveBroadcastStream().listen((event) {
       print(event);
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await Cwrfid.platformVersion;
+      platformVersion = await Plugin.platformVersion;
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -82,95 +82,95 @@ class _MyAppState extends State<MyApp> {
             Button(
                 child: Text('初始化RFID模块'),
                 onPressed: () async {
-                  Cwrfid.initRfid();
+                  Plugin.initRfid();
                 }),
             Button(
                 child: Text('开始RFID扫描'),
                 onPressed: () async {
-                  Cwrfid.startInventoryTag();
+                  Plugin.startInventoryTag();
                 }),
             Button(
                 child: Text('停止RFID扫描'),
                 onPressed: () async {
-                  Cwrfid.stopInventory();
+                  Plugin.stopInventory();
                 }),
             Button(
                 child: Text('关闭RFID模块'),
                 onPressed: () async {
-                  Cwrfid.rfidFree();
+                  Plugin.rfidFree();
                 }),
             Button(
                 child: Text('设置功率'),
                 onPressed: () async {
-                  Cwrfid.setPower(20);
+                  Plugin.setPower(20);
                 }),
             Button(
                 child: Text('获取功率'),
                 onPressed: () async {
-                  Cwrfid.getPower();
+                  Plugin.getPower();
                 }),
             HorizontalLine(),
             Button(
                 child: Text('初始化二维码扫描'),
                 onPressed: () async {
-                  Cwrfid.initBarcode2DWithSoft();
+                  Plugin.initBarcode2DWithSoft();
                 }),
             Button(
                 child: Text('二维码扫描'),
                 onPressed: () async {
-                  Cwrfid.scanBarcode();
+                  Plugin.scanBarcode();
                 }),
             Button(
                 child: Text('停止二维码扫描'),
                 onPressed: () async {
-                  Cwrfid.barcodeStop();
+                  Plugin.barcodeStop();
                 }),
             Button(
                 child: Text('关闭二维码扫描'),
                 onPressed: () async {
-                  Cwrfid.barcodeClose();
+                  Plugin.barcodeClose();
                 }),
             HorizontalLine(),
             Button(
                 child: Text('初始化一维码条码扫描'),
                 onPressed: () async {
-                  Cwrfid.initBarcode1DWithSoft();
+                  Plugin.initBarcode1DWithSoft();
                 }),
             Button(
                 child: Text('一维码扫描'),
                 onPressed: () async {
-                  Cwrfid.scan1DBarcode();
+                  Plugin.scan1DBarcode();
                 }),
             Button(
                 child: Text('停止一维码扫描'),
                 onPressed: () async {
-                  Cwrfid.scan1DBarcodeStop();
+                  Plugin.scan1DBarcodeStop();
                 }),
             Button(
                 child: Text('关闭一维码扫描'),
                 onPressed: () async {
-                  Cwrfid.barcode1DClose();
+                  Plugin.barcode1DClose();
                 }),
             HorizontalLine(),
             Button(
                 child: Text('声音-成功'),
                 onPressed: () async {
-                  Cwrfid.soundPlayer(soundType: 'SUCCESS');
+                  Plugin.soundPlayer(soundType: 'SUCCESS');
                 }),
             Button(
                 child: Text('声音-失败'),
                 onPressed: () async {
-                  Cwrfid.soundPlayer(soundType: 'ERROR');
+                  Plugin.soundPlayer(soundType: 'ERROR');
                 }),
             Button(
                 child: Text('声音-警告'),
                 onPressed: () async {
-                  Cwrfid.soundPlayer(soundType: 'WARNING');
+                  Plugin.soundPlayer(soundType: 'WARNING');
                 }),
             Button(
                 child: Text('声音-错误'),
                 onPressed: () async {
-                  Cwrfid.soundPlayer(soundType: 'REGGED');
+                  Plugin.soundPlayer(soundType: 'REGGED');
                 }),
             // ElevatedButton(
             //     child: Text('震动'),
