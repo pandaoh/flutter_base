@@ -90,7 +90,7 @@ public abstract class AbstractBarcodeService extends BaseOperatorService impleme
     /**
      * 发送广播  调用系统扫描
      */
-    private void scanOnce(Context context) {
+    protected void scanOnce(Context context) {
         Log.d(TAG, "======================[scanOnce]=======================");
         SystemProperties.set("persist.sys.scanstopimme", "false");
         Intent intent = new Intent();

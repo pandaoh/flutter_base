@@ -46,6 +46,15 @@ public class Barcode1DService extends AbstractBarcodeService {
         pushMessageAndPlaySound(buildMessageContent(true, "close", "关闭1D条形码成功", null));
     }
 
+    public void scanOnce(Context context){
+        if( !isBarcodeOpen){
+            pushMessageAndPlaySound(buildMessageContent(false, "scan1DBarcode", "1D条形码未启动", null));
+            return;
+        }
+        super.scanOnce(context);
+        pushMessageAndPlaySound(buildMessageContent(true, "scan1DBarcode", "1DBarcode开始扫码成功", null));
+    }
+
     //开始扫码
     public void startScan(Context context) {
         if( !isBarcodeOpen){

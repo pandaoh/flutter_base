@@ -7,9 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.stpass.imes.plugin.sbt.service.Barcode1DService;
-import com.stpass.imes.plugin.sbt.service.Barcode2DService;
 import com.stpass.imes.plugin.sbt.service.UHFReaderService;
-import com.stpass.imes.plugin.sbt.utils.MessageContent;
 import com.stpass.imes.plugin.sbt.utils.SoundPlayer;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -36,7 +34,6 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
     UHFReaderService uhfReader;
     Barcode1DService barcode1D;
-    Barcode2DService barcode2D;
     SoundPlayer soundPlayer;
 
 
@@ -58,9 +55,6 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
         barcode1D = Barcode1DService.getInstance();
         barcode1D.setSoundPlayer(soundPlayer);
-
-        barcode2D = Barcode2DService.getInstance();
-        barcode2D.setSoundPlayer(soundPlayer);
 
     }
 
@@ -101,7 +95,7 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
                 break;
             case "scan1DBarcode":
             case "scanBarcode":
-                barcode1D.startScan(context);
+                barcode1D.scanOnce(context);
                 break;
             case "scan1DBarcodeStop":
             case "barcodeStop":
@@ -139,12 +133,11 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
     public void onListen(Object arguments, EventChannel.EventSink events) {
         Log.d(TAG, "===============================[SbtPlugin.onListen()]===================================");
         sink = events;
-        if (uhfReader == null || barcode1D == null || barcode2D == null)
-            Log.d(TAG, String.format("uhfReader=%s,1D=%s,2D=%s", uhfReader, barcode1D, barcode2D));
+        if (uhfReader == null || barcode1D == null)
+            Log.d(TAG, String.format("uhfReader=%s,1D=%s", uhfReader, barcode1D));
 
         uhfReader.buildMessageHandlerBySetSink(sink);
         barcode1D.buildMessageHandlerBySetSink(sink);
-        barcode2D.buildMessageHandlerBySetSink(sink);
     }
 
     @Override
