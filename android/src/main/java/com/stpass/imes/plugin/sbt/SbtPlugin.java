@@ -46,10 +46,10 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
 
         context = flutterPluginBinding.getApplicationContext();
 
-        channel = new MethodChannel(messenger, "pda/method'");
+        channel = new MethodChannel(messenger, "pda/method");
         channel.setMethodCallHandler(this);
 
-        eventChannel = new EventChannel(messenger, "sbt_plugin/event");
+        eventChannel = new EventChannel(messenger, "pda/event");
         eventChannel.setStreamHandler(this);
 
         soundPlayer = SoundPlayer.getInstance().init(context);
@@ -96,30 +96,21 @@ public class SbtPlugin implements FlutterPlugin, MethodCallHandler, StreamHandle
                 uhfReader.getPower();
                 break;
             case "initBarcode1DWithSoft":
+            case "initBarcode2DWithSoft":
                 barcode1D.initBarcode1DWithSoft(context);
                 break;
             case "scan1DBarcode":
+            case "scanBarcode":
                 barcode1D.startScan(context);
                 break;
             case "scan1DBarcodeStop":
+            case "barcodeStop":
                 barcode1D.stopScan(context);
                 break;
             case "barcode1DClose":
+            case "barcodeClose":
                 barcode1D.stopScan(context);
                 barcode1D.close(context);
-                break;
-            case "initBarcode2DWithSoft":
-                barcode2D.initBarcode2DWithSoft(context);
-                break;
-            case "scanBarcode":
-                barcode2D.startScan(context);
-                break;
-            case "barcodeStop":
-                barcode2D.stopScan(context);
-                break;
-            case "barcodeClose":
-                barcode2D.stopScan(context);
-                barcode2D.close(context);
                 break;
             case "soundPlayer":
                 String soundType = call.argument("soundType");

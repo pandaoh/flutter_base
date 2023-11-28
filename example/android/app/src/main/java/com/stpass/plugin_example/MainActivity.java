@@ -1,15 +1,12 @@
-package com.stpass.cwrfid_example;
+package com.stpass.plugin_example;
 
 import io.flutter.embedding.android.FlutterActivity;
 import android.view.KeyEvent;
 
 import android.util.Log;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import android.os.Handler;
-
-import java.util.concurrent.TimeUnit;
 
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.EventChannel;
@@ -18,13 +15,7 @@ import android.os.Message;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.io.UnsupportedEncodingException;
 import java.lang.IllegalAccessException;
 import java.lang.reflect.Field;
 
